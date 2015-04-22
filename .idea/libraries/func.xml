@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="func">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/func/func.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

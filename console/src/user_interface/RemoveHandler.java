@@ -1,0 +1,70 @@
+package user_interface;
+
+import functional.Remove;
+import functional.UserData;
+
+import java.io.IOException;
+
+public class RemoveHandler {
+
+    protected static void holidayRemover() {
+        try {
+            MainMenu.out.println(Resources.language.getID_REQUEST());
+            int id = Integer.parseInt(MainMenu.reader.readLine());
+            if (id >= UserData.holidayCount && id < Resources.holidays.size()) {
+                removeHoliday(id);
+            }
+            else {
+                throw new IndexOutOfBoundsException();
+            }
+            PrintHandler.showMenu();
+        } catch (IOException e) {
+            MainMenu.out.println(Resources.language.getIO_ERROR());
+        }
+        catch (IndexOutOfBoundsException e) {
+            MainMenu.out.println(Resources.language.getWRONG_CHOICE());
+            holidayRemover();
+        }
+    }
+
+    protected static void countryRemover() {
+        try {
+            MainMenu.out.println(Resources.language.getID_REQUEST());
+            int id = Integer.parseInt(MainMenu.reader.readLine());
+            if (id >= UserData.countryCount && id < Resources.countries.size()) {
+                removeCountry(id);
+            }
+            else {
+                throw new IndexOutOfBoundsException();
+            }
+            PrintHandler.showMenu();
+        } catch (IOException e) {
+            MainMenu.out.println(Resources.language.getIO_ERROR());
+        } catch (IndexOutOfBoundsException e) {
+            MainMenu.out.println(Resources.language.getWRONG_CHOICE());
+            countryRemover();
+        }
+    }
+
+    private static void removeCountry(int id) {
+        Remove.removeCountry(id, Resources.countries, Resources.traditions);
+    }
+
+    private static void removeHoliday(int id) {
+        Remove.removeHoliday(id, Resources.holidays, Resources.traditions);
+    }
+
+    protected static void removeTradition() {
+        try {
+            MainMenu.out.println(Resources.language.getID_REQUEST());
+            int choice = Integer.parseInt(MainMenu.reader.readLine());
+                Remove.removeTradition(choice, Resources.traditions);
+
+            MainMenu.out.println(Resources.language.getREADY());
+        } catch (IOException e) {
+            MainMenu.out.println(Resources.language.getIO_ERROR());
+        }
+        catch (IndexOutOfBoundsException ex) {
+            MainMenu.out.println(Resources.language.getWRONG_CHOICE());}
+    }
+}

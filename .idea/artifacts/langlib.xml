@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="langlib">
+    <output-path>$PROJECT_DIR$/out/artifacts/langlib</output-path>
+    <root id="archive" name="langlib.jar">
+      <element id="module-output" name="language" />
+    </root>
+  </artifact>
+</component>
