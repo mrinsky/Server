@@ -122,12 +122,19 @@ public class myServer implements Runnable {
                                 try {
                                     System.out.println("Дошло до LoadAll");
 
-                                    xmlFileWorking.loadUser(traditions,countries,holidays);
+                                    if (UserData.currentUser == null) xmlFileWorking.loadGuest(traditions, countries, holidays);
+                                    else xmlFileWorking.loadUser(traditions,countries,holidays);
+
                                 } catch (SAXException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            else if ("logOut".equals(input)){Thread.currentThread().stop();}
+                            else if ("logOut".equals(input)){
+                                UserData.currentUser = null;
+                                traditions.clear();
+                                holidays.clear();
+                                countries.clear();
+                                Thread.currentThread().stop();}
                             else{
 
                                 temp = getMethodFromClient(input);

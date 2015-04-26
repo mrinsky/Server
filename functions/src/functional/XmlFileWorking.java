@@ -43,7 +43,8 @@ public class XmlFileWorking implements DataSaveLoad {
 
     public void loadUser(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws JDOMException, SAXException, ParseException, IOException {
         System.out.println("load");
-        System.out.println("loadData" + UserData.currentUser.getLogin()+"пусто");
+
+        System.out.println("loadData" + UserData.currentUser.getLogin() + "пусто");
         for (Tradition item : loadTradition(ROOT + UserData.currentUser.getLogin() + TRADITION_FILE)) {
 
             traditions.add(item);
@@ -53,6 +54,22 @@ public class XmlFileWorking implements DataSaveLoad {
             countries.add(item);
         }
         for (Holiday item : loadHoliday(ROOT + UserData.currentUser.getLogin() + HOLIDAY_FILE)) {
+            holidays.add(item);
+        }
+    }
+
+    public void loadGuest(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws JDOMException, SAXException, ParseException, IOException {
+        System.out.println("load");
+        System.out.println("loadGuestData");
+        for (Tradition item : loadTradition(XML_TRADITION_PATCH_RU)) {
+
+            traditions.add(item);
+        }
+
+        for (Country item : loadCountry(XML_COUNTRY_PATCH_RU)) {
+            countries.add(item);
+        }
+        for (Holiday item : loadHoliday(XML_HOLIDAY_PATCH_RU)) {
             holidays.add(item);
         }
     }
@@ -181,7 +198,7 @@ public class XmlFileWorking implements DataSaveLoad {
             direct = XML_HOLIDAY_DEFAULT_RU;
         }
         //if (validationXSD(direct, HOLIDAY_XSD) == false) {
-          //  throw new SAXException();
+        //  throw new SAXException();
         //}
         Document document = builder.build(direct);
         Element root = document.getRootElement();
@@ -260,7 +277,8 @@ public class XmlFileWorking implements DataSaveLoad {
 
         ArrayList<User> users = new ArrayList<User>();
 
-        if (!((new File(direct)).exists())) {}
+        if (!((new File(direct)).exists())) {
+        }
         if (validationXSD(direct, USERS_XSD) == false) {
             throw new SAXException();
         }
@@ -350,6 +368,7 @@ public class XmlFileWorking implements DataSaveLoad {
 
         return s;
     }
+
     public void stringToXML(String direct, String inputMessage) {
         PrintWriter printWriter;
         File file = new File(direct);
@@ -368,42 +387,42 @@ public class XmlFileWorking implements DataSaveLoad {
     public String sendHolidaysToServer_ADD(Holiday holiday) throws IOException {
         Element root = new Element("addHoliday");
         Document doc = new Document(root);
-            Element holidayElement = new Element("holiday");
-            Element holidayName = new Element("holidayName");
-            holidayName.setText(holiday.getName());
-            holidayElement.addContent(holidayName);
+        Element holidayElement = new Element("holiday");
+        Element holidayName = new Element("holidayName");
+        holidayName.setText(holiday.getName());
+        holidayElement.addContent(holidayName);
 
-            Element holidayStartDate = new Element("holidayStartDate");
-            holidayStartDate.setText(holiday.getStartDate());
-            holidayElement.addContent(holidayStartDate);
+        Element holidayStartDate = new Element("holidayStartDate");
+        holidayStartDate.setText(holiday.getStartDate());
+        holidayElement.addContent(holidayStartDate);
 
             /*Element holidayEndDate = new Element("holidayEndDate");
             holidayEndDate.setText((String)holiday.getEndDate());
             holidayElement.addContent(holidayEndDate);
 */
-            Element holidayType = new Element("holidayType");
-            holidayType.setText(holiday.getType().toString());
-            holidayElement.addContent(holidayType);
+        Element holidayType = new Element("holidayType");
+        holidayType.setText(holiday.getType().toString());
+        holidayElement.addContent(holidayType);
 
-            root.addContent(holidayElement);
+        root.addContent(holidayElement);
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
 
 
     }
+
     public Holiday getHolidayFromClient_ADD(String direct) throws IOException, JDOMException, ParseException, SAXException {
 
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         List holidayElem = root.getChildren();
         Iterator holidayIterator = holidayElem.iterator();
-            Element holidayElement = (Element) holidayIterator.next();
-            Holiday holiday = new Holiday();
-            holiday.setName(holidayElement.getChild("holidayName").getText());
-            holiday.setStartDate(Holiday.dateFormat.parse(holidayElement.getChild("holidayStartDate").getText()));
-            // holiday.setEndDate(Holiday.dateFormat.parse(holidayElement.getChild("holidayEndDate").getText()));
-            holiday.setType(HolidayType.valueOf(holidayElement.getChild("holidayType").getText()));
-
+        Element holidayElement = (Element) holidayIterator.next();
+        Holiday holiday = new Holiday();
+        holiday.setName(holidayElement.getChild("holidayName").getText());
+        holiday.setStartDate(Holiday.dateFormat.parse(holidayElement.getChild("holidayStartDate").getText()));
+        // holiday.setEndDate(Holiday.dateFormat.parse(holidayElement.getChild("holidayEndDate").getText()));
+        holiday.setType(HolidayType.valueOf(holidayElement.getChild("holidayType").getText()));
 
 
         return holiday;
@@ -412,26 +431,26 @@ public class XmlFileWorking implements DataSaveLoad {
     public String sendCountryToServer_ADD(Country country) throws IOException {
         Element root = new Element("addCountry");
         Document doc = new Document(root);
-            Element countryElement = new Element("country");
-            Element countryName = new Element("countryName");
-            countryName.setText(country.getName());
-            countryElement.addContent(countryName);
-            root.addContent(countryElement);
+        Element countryElement = new Element("country");
+        Element countryName = new Element("countryName");
+        countryName.setText(country.getName());
+        countryElement.addContent(countryName);
+        root.addContent(countryElement);
 
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
 
 
-
     }
+
     public Country getCountryFromClient_ADD(String direct) throws IOException, JDOMException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         List countryElem = root.getChildren();
         Iterator countryIterator = countryElem.iterator();
         Element countryElement = (Element) countryIterator.next();
-            Country country = new Country();
-            country.setName(countryElement.getChild("countryName").getText());
+        Country country = new Country();
+        country.setName(countryElement.getChild("countryName").getText());
 
 
         return country;
@@ -477,6 +496,7 @@ public class XmlFileWorking implements DataSaveLoad {
 
 
     } //отправляем традицию с клиента на сервер
+
     public Tradition getTraditionFromClient_ADD(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
@@ -521,6 +541,7 @@ public class XmlFileWorking implements DataSaveLoad {
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
     }
+
     public String getRequestFromClient_Search(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
@@ -537,6 +558,7 @@ public class XmlFileWorking implements DataSaveLoad {
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
     }
+
     public String getRequestFromClient_regularSearch(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
@@ -544,27 +566,30 @@ public class XmlFileWorking implements DataSaveLoad {
 
     }
 
-    public String sendRequestToServer_maskSearch(String name,String country,String description) throws IOException {
+    public String sendRequestToServer_maskSearch(String name, String country, String description) throws IOException {
         Element root = new Element("maskSearch");
         Document doc = new Document(root);
         Element traditionElement = new Element("maskSearchRequest");
         traditionElement.setAttribute("holidayName", name);
-        traditionElement.setAttribute("countryName",country);
-        traditionElement.setAttribute("description",description);
+        traditionElement.setAttribute("countryName", country);
+        traditionElement.setAttribute("description", description);
         root.addContent(traditionElement);
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
     }
+
     public String getRequestFromClient_maskSearchHolidayName(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("maskSearchRequest").getAttributeValue("holidayName");
-        }
+    }
+
     public String getRequestFromClient_maskSearchCountryName(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("maskSearchRequest").getAttributeValue("countryName");
     }
+
     public String getRequestFromClient_maskSearchDescriptionName(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
@@ -580,35 +605,36 @@ public class XmlFileWorking implements DataSaveLoad {
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
     }
+
     public String getIdFromClient_Remove(String direct) throws JDOMException, IOException, ParseException {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("traditionId").getAttributeValue("id");
 
     }
-    public String sendDataRegToServer_Registration(String login,String pass1, String pass2) throws IOException { //пользователь делает xml для отправки на сервер
+
+    public String sendDataRegToServer_Registration(String login, String pass1, String pass2) throws IOException { //пользователь делает xml для отправки на сервер
         Element root = new Element("registration");
         Document doc = new Document(root);
         Element traditionElement = new Element("dataReg");
         traditionElement.setAttribute("login", login);
-        traditionElement.setAttribute("pass1",pass1);
-        traditionElement.setAttribute("pass2",pass2);
+        traditionElement.setAttribute("pass1", pass1);
+        traditionElement.setAttribute("pass2", pass2);
         root.addContent(traditionElement);
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
     }
-    public String sendDataLogInToServer_LogIn(String login,String pass1) throws IOException { //пользователь делает xml для отправки на сервер
+
+    public String sendDataLogInToServer_LogIn(String login, String pass1) throws IOException { //пользователь делает xml для отправки на сервер
         Element root = new Element("logIn");
         Document doc = new Document(root);
         Element traditionElement = new Element("dataLogIn");
         traditionElement.setAttribute("login", login);
-        traditionElement.setAttribute("pass1",pass1);
+        traditionElement.setAttribute("pass1", pass1);
         root.addContent(traditionElement);
         XMLOutputter outputter = new XMLOutputter();
         return outputter.outputString(doc);
     }
-
-
 
 
 }

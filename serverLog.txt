@@ -581,3 +581,47 @@ Session started: Wed Apr 22 09:07:08 BRT 2015
 
  Client Vally connected        Wed Apr 22 09:07:17 BRT 2015
  Client Vally connected        Wed Apr 22 09:12:23 BRT 2015
+Session started: Sun Apr 26 09:19:40 BRT 2015
+
+Session started: Sun Apr 26 09:26:31 BRT 2015
+
+Session started: Sun Apr 26 09:29:02 BRT 2015
+
+Session started: Sun Apr 26 09:38:59 BRT 2015
+
+ Client Vally connected        Sun Apr 26 09:40:12 BRT 2015
+ Client Vally connected        Sun Apr 26 09:41:38 BRT 2015
+Session started: Sun Apr 26 09:43:11 BRT 2015
+
+ Client Vally connected        Sun Apr 26 09:45:08 BRT 2015
+ Client  connected        Sun Apr 26 09:49:36 BRT 2015
+ Client  connected        Sun Apr 26 09:49:44 BRT 2015
+ Client  connected        Sun Apr 26 09:49:52 BRT 2015
+ Client Vally connected        Sun Apr 26 09:51:15 BRT 2015
+Session started: Sun Apr 26 09:53:39 BRT 2015
+
+ Client Vally connected        Sun Apr 26 09:53:53 BRT 2015
+Session started: Sun Apr 26 09:54:59 BRT 2015
+
+ Client Vally connected        Sun Apr 26 09:55:18 BRT 2015
+ Client Vally connected        Sun Apr 26 09:55:32 BRT 2015
+ Client M connected        Sun Apr 26 09:55:57 BRT 2015
+ Client Vally connected        Sun Apr 26 09:56:41 BRT 2015
+Session started: Sun Apr 26 10:00:19 BRT 2015
+
+ Client Vally connected        Sun Apr 26 10:01:27 BRT 2015
+ Client Mih connected        Sun Apr 26 10:02:58 BRT 2015
+Session started: Sun Apr 26 10:05:30 BRT 2015
+
+ Client Mih connected        Sun Apr 26 10:05:43 BRT 2015
+ Client Vally connected        Sun Apr 26 10:06:01 BRT 2015
+ Client Mih connected        Sun Apr 26 10:06:28 BRT 2015
+Session started: Sun Apr 26 10:09:37 BRT 2015
+
+ Client Vally connected        Sun Apr 26 10:10:12 BRT 2015
+Session started: Sun Apr 26 10:14:55 BRT 2015
+
+ Client Vally connected        Sun Apr 26 10:15:08 BRT 2015
+Session started: Sun Apr 26 10:16:09 BRT 2015
+
+ Client Vally connected        Sun Apr 26 10:16:21 BRT 2015
