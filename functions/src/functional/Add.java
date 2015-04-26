@@ -77,19 +77,17 @@ public class Add {
     //Добавить новую традицию.
     public static List<Tradition> addTradition(Holiday holiday, Country country, List<Tradition> list) {
         Tradition tradition = new Tradition(holiday, country);
-        //if (isUnique(tradition, list)) {
+        if (isUnique(tradition, list)) {
         list.add(tradition);
-        //}
-        //else uniqueFlag = false;
+        }
         return list;
     }
     public static List<Tradition> addTradition(Holiday holiday, Country country, String description, List<Tradition> list) {
         Tradition tradition = new Tradition(holiday, country);
         tradition.setDescription(description);
-        //if (isUnique(tradition, list)) {
+        if (isUnique(tradition, list)) {
         list.add(tradition);
-        //}
-        //else Resources.language.getNOT_UNIQUE();
+        }
         return list;
     }
 
