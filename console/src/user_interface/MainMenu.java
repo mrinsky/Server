@@ -20,116 +20,73 @@ public class MainMenu {
     public static void init() {
         try {
             UserData.users = new XmlFileWorking().loadUsers(DataSaveLoad.XML_USERS);
-            System.out.println(UserData.users.get(0).getLogin());
-
-
+            runServerInit();
+            chooseLocale();
         } catch (IOException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getIO_ERROR());
         } catch (JDOMException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getXML_ERROR());
         } catch (SAXException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getXML_ERROR());
         }
-        runServerInit();
-
-        chooseLocale();
-
     }
 
-    private static void chooseLocale() {
+    private static void chooseLocale() throws JDOMException {
         int N = 1024;
         UserData.rsa.init(N);
         int choice;
         while (true) {
             out.println(Resources.language.getSTART_CHOICE());
             try {
+                // Выбор языка
                 choice = Integer.parseInt(reader.readLine());
                 switch (choice) {
                     case 1:
                         Resources.language = new Strings_RU();
                         readArrays();
-                        if (UserData.currentUser == null) {
-                            UserHandler.logIn();
-                        } else {
-                            mainMenu();
-                        }
+                        mainMenu();
                         break;
                     case 2:
                         Resources.language = new Strings_EN();
                         readArrays();
-                        if (UserData.currentUser == null) {
-                            UserHandler.logIn();
-                        } else {
-                            mainMenu();
-                        }
+                        mainMenu();
                         break;
                     case 3:
-                        new XmlFileWorking().saveUsers(UserData.users,DataSaveLoad.XML_USERS);
+                        new XmlFileWorking().saveUsers(UserData.users, DataSaveLoad.XML_USERS);
                         System.exit(0);
                         break;
                     default:
                         out.println(Resources.language.getWRONG_CHOICE());
+                        break;
                 }
+            } catch (IOException e) {
+                out.println(Resources.language.getIO_ERROR());
             } catch (NumberFormatException ex) {
                 out.println(Resources.language.getWRONG_CHOICE());
-            } catch (IOException ex) {
-                out.println(Resources.language.getIO_ERROR());
             }
         }
     }
 
     protected static void mainMenu() {
-        if (UserData.currentUser != null) {
-            out.println(Resources.language.getMAIN_MENU());
-        } else {
-            out.println(Resources.language.getGUEST_MAIN_MENU());
-        }
+
+        out.println(Resources.language.getMAIN_MENU());
         int choice;
-        boolean guest_flag = false;
         try {
             choice = Integer.parseInt(reader.readLine());
             switch (choice) {
                 case 1:
-                    if (UserData.currentUser != null) {
-                        AddHandler.addMenu();
-                        break;
-                    } else {
-                        guest_flag = true;
-                    }
+                    AddHandler.addMenu();
+                    break;
                 case 2:
-                    if (UserData.currentUser != null || guest_flag) {
-                        SearchHandler.searchMenu();
-                        break;
-                    } else {
-                        guest_flag = true;
-                    }
+                    SearchHandler.searchMenu();
+                    break;
                 case 3:
-                    if (UserData.currentUser != null || guest_flag) {
-                        PrintHandler.showMenu();
-                        break;
-                    } else {
-                        guest_flag = true;
-                    }
+                    PrintHandler.showMenu();
+                    break;
                 case 4:
-                    if (UserData.currentUser != null || guest_flag) {
-                        if (Resources.language.getClass() == Strings_EN.class) help("./resources/helps/help_en.txt");
-                        else help("./resources/helps/help_ru.txt");
-                        break;
-                    } else {
-                        guest_flag = true;
-                    }
+                    chooseLocale();
+                    break;
                 case 5:
-                    if (UserData.currentUser != null || guest_flag) {
-                        chooseLocale();
-                        break;
-                    }
-                case 6:
-                    if (UserData.currentUser != null) {
-                        UserData.logOut(Resources.traditions, Resources.countries, Resources.holidays);
-                        UserHandler.logIn();
-                        break;
-                    }
-                case 7:
                     exit();
                     break;
                 default:
@@ -143,62 +100,34 @@ public class MainMenu {
         } catch (IOException e) {
             out.println(Resources.language.getIO_ERROR());
             mainMenu();
+        } catch (JDOMException e) {
+            out.println(Resources.language.getXML_ERROR());
         }
     }
 
-    private static void help(String path) {
-        File helpFile = new File(path);
+    protected static void exit() throws IOException {
         try {
-            BufferedReader fileReader = new BufferedReader(new FileReader(helpFile));
-            while (fileReader.ready()) out.println(fileReader.readLine());
-            out.println(Resources.language.getHELP_MENU());
-            int choice = Integer.parseInt(reader.readLine());
-            switch (choice) {
-                case 1:
-                    mainMenu();
-                    break;
-                case 2:
-                    exit();
-                    break;
-                default:
-                    out.println(Resources.language.getWRONG_CHOICE());
-                    mainMenu();
-            }
-        } catch (FileNotFoundException e) {
-            out.println(Resources.language.getHELP_FILE_ERROR());
-            mainMenu();
-        } catch (IOException e) {
-            out.println(Resources.language.getIO_ERROR());
-            mainMenu();
-        } catch (NumberFormatException ex) {
-            out.println(Resources.language.getWRONG_CHOICE());
-            mainMenu();
-        }
-    }
-
-    protected static void exit() { //Куча Исключений, нужны try и catch
-        try {
-            if (UserData.currentUser != null) {
-                UserData.logOut(Resources.traditions, Resources.countries, Resources.holidays);
-            }
             writeArrays();
             reader.close();
             out.close();
             System.exit(0);
-        } catch (IOException e) { // прописать сюда ошибкииииииии
-        } catch (JDOMException e) {
         } catch (ParseException e) {
+            out.println(Resources.language.getPARSE_ERROR());
         } catch (ClassNotFoundException e) {
+            out.println(Resources.language.getCLASS_NOT_FOUND_ERROR());
+        }
+        catch (JDOMException e) {
+            out.println(Resources.language.getXML_ERROR());
         }
     }
 
     private static void readArrays() throws IOException {
         try {
             xmlFiles.loadAll(Resources.traditions, Resources.countries, Resources.holidays);
-
         } catch (ClassNotFoundException ex) {
             MainMenu.out.println(Resources.language.getNO_CLASS());
-        } catch (JDOMException e) {
+        }
+        catch (JDOMException e) {
             MainMenu.out.println(Resources.language.getXML_ERROR());
         } catch (ParseException e) {
             MainMenu.out.println(Resources.language.getPARSE_ERROR());
@@ -209,9 +138,9 @@ public class MainMenu {
 
     private static void writeArrays() throws IOException, JDOMException, ParseException, ClassNotFoundException {
         xmlFiles.saveAll(Resources.traditions, Resources.countries, Resources.holidays);
-          }
+    }
 
-    private static void runServerInit(){
+    private static void runServerInit() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -225,6 +154,4 @@ public class MainMenu {
             }
         }).start();
     }
-
-//endregion
 }

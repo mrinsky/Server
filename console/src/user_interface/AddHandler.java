@@ -16,61 +16,48 @@ public class AddHandler {
 
     protected static void addMenu() {
         int choice;
-        while (true) {
-            try {
-                MainMenu.out.println(Resources.language.getADD_MENU());
-                choice = Integer.parseInt(MainMenu.reader.readLine());
+        MainMenu.out.println(Resources.language.getADD_MENU());
+        try {
+            choice = Integer.parseInt(MainMenu.reader.readLine());
 
-                switch (choice) {
-                    case 1:
-                        addTradition();
-                        break;
-                    case 2:
-                        MainMenu.mainMenu();
-                        break;
-                    default:
-                        MainMenu.out.println(Resources.language.getWRONG_CHOICE());
-                }
-            } catch (NumberFormatException ex) {
+            switch (choice) {
+                case 1:
+                    addTradition();
+                    break;
+                case 2:
+                    MainMenu.mainMenu();
+                    break;
+                default:
+                    MainMenu.out.println(Resources.language.getWRONG_CHOICE());
+                    break;
+            }
+        } catch (IOException e) {
+            MainMenu.out.println(Resources.language.getIO_ERROR());
+        }
+    }
+
+    // Добавление традиции
+    private static void addTradition() throws IOException {
+        Resources.traditions = (ArrayList<Tradition>) Add.addTradition(holidayMenu(), countryMenu(), Resources.traditions);
+        MainMenu.out.println(Resources.language.getDESCRIPT_REQUEST());
+        int choice = Integer.parseInt(MainMenu.reader.readLine());
+        switch (choice) {
+            case 1:
+                Resources.traditions.get(Resources.traditions.size() - 1).setDescription(MainMenu.reader.readLine());
+                MainMenu.out.println(Resources.language.getREADY());
+                addMenu();
+                break;
+            case 2:
+                MainMenu.out.println(Resources.language.getREADY());
+                addMenu();
+                break;
+            default:
                 MainMenu.out.println(Resources.language.getWRONG_CHOICE());
-            } catch (IOException e) {
-                MainMenu.out.println(Resources.language.getIO_ERROR());
-            }
+                break;
         }
     }
 
-    private static void addTradition() {
-        while (true) {
-            try {
-                if (UserData.currentUser.isAdmin()) {
-                    Resources.traditions = (ArrayList<Tradition>) Add.addTradition(holidayMenu(), countryMenu(), Resources.traditions);
-                }
-                else if (UserData.currentUser != null){
-                    UserData.currentUser.setTraditionList((ArrayList<Tradition>) Add.addTradition(holidayMenu(), countryMenu(), Resources.traditions));
-                }
-                MainMenu.out.println(Resources.language.getDESCRIPT_REQUEST());
-                int choice = Integer.parseInt(MainMenu.reader.readLine());
-                switch (choice) {
-                    case 1:
-                        Resources.traditions.get(Resources.traditions.size() - 1).setDescription(MainMenu.reader.readLine());
-                        //Add.checkTraditionList(Resources.traditions.get(Resources.traditions.size() - 1));
-                        MainMenu.out.println(Resources.language.getREADY());
-                        addMenu();
-                        break;
-                    case 2:
-                        //Add.checkTraditionList(Resources.traditions.get(Resources.traditions.size() - 1));
-                        MainMenu.out.println(Resources.language.getREADY());
-                        addMenu();
-                        break;
-                    default:
-                        MainMenu.out.println(Resources.language.getWRONG_CHOICE());
-                }
-            } catch (IOException ex) {
-                MainMenu.out.println(Resources.language.getIO_ERROR());
-            }
-        }
-    }
-
+    // Меню добавления страны
     private static Country countryMenu() {
         while (true) {
             try {
@@ -93,6 +80,7 @@ public class AddHandler {
         }
     }
 
+    // Меню добавления праздника
     private static Holiday holidayMenu() {
         Holiday holiday;
         while (true) {
@@ -111,36 +99,38 @@ public class AddHandler {
                         return holiday;
                     default:
                         MainMenu.out.println(Resources.language.getWRONG_CHOICE());
+                        break;
                 }
             } catch (IOException ex) {
                 MainMenu.out.println(Resources.language.getIO_ERROR());
-                addMenu();
             } catch (IndexOutOfBoundsException ex) {
                 MainMenu.out.println(Resources.language.getWRONG_CHOICE());
             }
         }
     }
 
+    // Добавление праздника
     protected static Holiday addHoliday() {
         while (true) {
             try {
                 MainMenu.out.println(Resources.language.getHOLIDAY_REQUEST());
                 String name = MainMenu.reader.readLine();
 
+                // Выбор типа
                 MainMenu.out.println((Resources.language.getTYPE_REQUEST()));
                 PrintHandler.printAllTypes();
                 int type = Integer.parseInt(MainMenu.reader.readLine());
 
+                // Выбор даты
                 MainMenu.out.println(Resources.language.getDATE_REQUEST());
                 int dateChoice = Integer.parseInt(MainMenu.reader.readLine());
 
                 switch (dateChoice) {
                     case 1:
-                        Resources.holidays = (LinkedList<Holiday>)Add.addHoliday(name, type, Resources.holidays);
+                        Resources.holidays = (LinkedList<Holiday>) Add.addHoliday(name, type, Resources.holidays);
                         if (Add.uniqueFlag) {
-                        return new Holiday(name, type);
-                        }
-                        else {
+                            return new Holiday(name, type);
+                        } else {
                             Resources.out.println(Resources.language.getNOT_UNIQUE());
                             return holidayMenu();
                         }
@@ -151,30 +141,27 @@ public class AddHandler {
                         int endChoice = Integer.parseInt(MainMenu.reader.readLine());
                         if (endChoice == 2) {
                             end = createDate();
-                            Resources.holidays = (LinkedList<Holiday>)Add.addHoliday(name, start, end, type, Resources.holidays);
+                            Resources.holidays = (LinkedList<Holiday>) Add.addHoliday(name, start, end, type, Resources.holidays);
                             if (Add.uniqueFlag) {
                                 return new Holiday(name, start, end, type);
-                            }
-                            else {
+                            } else {
                                 Resources.out.println(Resources.language.getNOT_UNIQUE());
                                 return holidayMenu();
                             }
                         } else if (endChoice == 1) {
-                            Resources.holidays = (LinkedList<Holiday>)Add.addHoliday(name, start, type, Resources.holidays);
+                            Resources.holidays = (LinkedList<Holiday>) Add.addHoliday(name, start, type, Resources.holidays);
                             if (Add.uniqueFlag) {
                                 return new Holiday(name, start, type);
-                            }
-                            else {
+                            } else {
                                 Resources.out.println(Resources.language.getNOT_UNIQUE());
                                 return holidayMenu();
                             }
                         } else {
                             MainMenu.out.println(Resources.language.getWRONG_CHOICE());
-                            Resources.holidays = (LinkedList<Holiday>)Add.addHoliday(name, start, type, Resources.holidays);
+                            Resources.holidays = (LinkedList<Holiday>) Add.addHoliday(name, start, type, Resources.holidays);
                             if (Add.uniqueFlag) {
                                 return new Holiday(name, start, type);
-                            }
-                            else {
+                            } else {
                                 Resources.out.println(Resources.language.getNOT_UNIQUE());
                                 return holidayMenu();
                             }
@@ -190,12 +177,13 @@ public class AddHandler {
         }
     }
 
+    // Добавление страны
     private static Country addCountry() {
         Country country = null;
         try {
             MainMenu.out.println(Resources.language.getCOUNTRY_REQUEST());
             country = new Country(MainMenu.reader.readLine());
-            Resources.countries = (LinkedList<Country>)Add.addCountry(country, Resources.countries);
+            Resources.countries = (LinkedList<Country>) Add.addCountry(country, Resources.countries);
             if (!Add.uniqueFlag) {
                 Resources.out.println(Resources.language.getNOT_UNIQUE());
                 country = countryMenu();
@@ -208,11 +196,14 @@ public class AddHandler {
         return country;
     }
 
+    // Метод преобразования вводимых данных в дату
     private static Date createDate() throws ParseException, IOException {
         MainMenu.out.println(Resources.language.getDAY());
         int day = Integer.parseInt(MainMenu.reader.readLine());
+
         MainMenu.out.println(Resources.language.getMONTH());
         int month = Integer.parseInt(MainMenu.reader.readLine());
+
         Date date = Holiday.dateFormat.parse(day + "." + month);
         return date;
     }
