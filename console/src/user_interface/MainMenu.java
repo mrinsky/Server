@@ -67,7 +67,7 @@ public class MainMenu {
         }
     }
 
-    protected static void mainMenu() throws JDOMException {
+    protected static void mainMenu() {
 
         out.println(Resources.language.getMAIN_MENU());
         int choice;
@@ -100,10 +100,12 @@ public class MainMenu {
         } catch (IOException e) {
             out.println(Resources.language.getIO_ERROR());
             mainMenu();
+        } catch (JDOMException e) {
+            out.println(Resources.language.getXML_ERROR());
         }
     }
 
-    protected static void exit() throws IOException, JDOMException {
+    protected static void exit() throws IOException {
         try {
             writeArrays();
             reader.close();
@@ -113,6 +115,9 @@ public class MainMenu {
             out.println(Resources.language.getPARSE_ERROR());
         } catch (ClassNotFoundException e) {
             out.println(Resources.language.getCLASS_NOT_FOUND_ERROR());
+        }
+        catch (JDOMException e) {
+            out.println(Resources.language.getXML_ERROR());
         }
     }
 
