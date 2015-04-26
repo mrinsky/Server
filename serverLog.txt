@@ -638,3 +638,6 @@ Session started: Sun Apr 26 11:12:01 BRT 2015
 Session started: Sun Apr 26 11:12:22 BRT 2015
 
  Client Vally connected        Sun Apr 26 11:12:34 BRT 2015
+Session started: Sun Apr 26 12:07:06 BRT 2015
+
+Session started: Sun Apr 26 12:07:12 BRT 2015
