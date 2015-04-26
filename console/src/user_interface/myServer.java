@@ -194,6 +194,11 @@ public class myServer implements Runnable {
             return xmlFileWorking.xmlToString(TEMP_FOLDER + name + TEMP_XML);
 
         }
+        if ("searchByDate".equals(root.getName())) {
+            xmlFileWorking.saveTradition(Search.searchDate(xmlFileWorking.getDateFromClient_dateSearch(TEMP_FOLDER + name + TEMP_XML),
+                    holidays, traditions), TEMP_FOLDER + name + TEMP_XML);
+            return xmlFileWorking.xmlToString(TEMP_FOLDER + name + TEMP_XML);
+        }
         if ("regularSearch".equals(root.getName())) {
             xmlFileWorking.saveTradition(Search.regularSearch(xmlFileWorking.getRequestFromClient_regularSearch(TEMP_FOLDER + name + TEMP_XML),
                     traditions), TEMP_FOLDER + name + TEMP_XML);

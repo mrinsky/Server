@@ -1,7 +1,6 @@
 package user_interface;
 
 import functional.*;
-import model.*;
 import org.jdom2.JDOMException;
 import org.xml.sax.SAXException;
 
@@ -9,14 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
-//import modules.functional.DataSaveLoad;
-//import modules.functional.SerFileWorking;
-//import modules.functional.XmlFileWorking;
 
 /**
  * Created by root on 15.03.15.
@@ -25,6 +17,10 @@ public class UserHandler {
     protected static PrintWriter out = new PrintWriter(System.out, true);
     protected static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+    /*************************
+     * Methods
+     *************************/
+    //Сам метод регистрации.
     private static void registration() {
         String login,
                 pass1,
@@ -46,20 +42,19 @@ public class UserHandler {
                 break;
             }
         } catch (IllegalArgumentException e) {
-            out.println(e.getMessage());
-            registration();
+            out.println(Resources.language.getWRONG_CHOICE());
         } catch (IOException e) {
             out.println(Resources.language.getIO_ERROR());
             MainMenu.mainMenu();
         } catch (JDOMException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getXML_ERROR());
         } catch (SAXException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getXML_ERROR());
         } catch (ParseException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getPARSE_ERROR());
         }
     }
-
+    //Автроизация пользователя.
     private static void authorization() throws JDOMException, SAXException, ParseException {
         String login,
                 pass;
@@ -76,9 +71,8 @@ public class UserHandler {
             MainMenu.mainMenu();
         }
     }
-
+    //Загрузка даных пользователя.
     protected static void loadUserData(String login, String pass) throws JDOMException, SAXException, ParseException, IOException {
-
         String message = UserData.loadData(login, pass, Resources.traditions, Resources.countries,
                 Resources.holidays);
         if (!message.isEmpty()) {
@@ -87,13 +81,12 @@ public class UserHandler {
         }
         else out.println(Resources.language.getHELLO_USER() + login);
     }
-
+    //Меню авторизации.
     protected static void logIn() {
         out.println(Resources.language.getENTER_MESSAGE());
         int choice;
         try {
             choice = Integer.parseInt(reader.readLine());
-
             switch (choice) {
                 case 1:
                     authorization();
@@ -116,11 +109,11 @@ public class UserHandler {
             out.println(Resources.language.getIO_ERROR());
             logIn();
         } catch (JDOMException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getXML_ERROR());
         } catch (SAXException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getXML_ERROR());
         } catch (ParseException e) {
-            e.printStackTrace();
+            out.println(Resources.language.getPARSE_ERROR());
         }
     }
 

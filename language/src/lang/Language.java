@@ -6,12 +6,12 @@ public interface Language {
     public String getPASSWORD();
 
 
-        public String getHELP();
+    public String getHELP();
 
     public String getREAD();
     public String getCHANGE();
 
-        public String getSUBSTRING();
+       public String getSUBSTRING();
     public String getREGULAR();
 
     public String getMASK();
@@ -168,4 +168,6 @@ public interface Language {
     public String getSEARCH_BY_DATE_INTERVAL();
     public String getCHOOSE_SEARCH_PARAM();
     public String getAND_LABEL();
+
+    public String getREGISTRATION_LABEL();
 }

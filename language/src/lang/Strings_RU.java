@@ -98,6 +98,7 @@ public class Strings_RU implements Language {
     private final String AND_LABEL = "А также";
     private final String SHOW_OR_EDIT = "Показать / Изменить описание";
     private final String NOT_FOUND_DESCRIPTION = "Описание отсутствует";
+    private final String REGISTRATION_LABEL = "Регистрация";
 
     public String getNOT_FOUND_DESCRIPTION() {
         return NOT_FOUND_DESCRIPTION;
@@ -525,5 +526,9 @@ public class Strings_RU implements Language {
 
     public String getGUEST_MAIN_MENU(){
         return GUEST_MAIN_MENU;
+    }
+
+    public String getREGISTRATION_LABEL() {
+        return REGISTRATION_LABEL;
     }
 }
