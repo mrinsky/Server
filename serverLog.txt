@@ -641,3 +641,10 @@ Session started: Sun Apr 26 11:12:22 BRT 2015
 Session started: Sun Apr 26 12:07:06 BRT 2015
 
 Session started: Sun Apr 26 12:07:12 BRT 2015
+
+ Client Vally connected        Sun Apr 26 12:08:53 BRT 2015
+ Client Vally connected        Sun Apr 26 12:10:14 BRT 2015
+Session started: Sun Apr 26 12:19:47 BRT 2015
+
+ Client Vally connected        Sun Apr 26 12:19:49 BRT 2015
+ Client Vally connected        Sun Apr 26 12:19:58 BRT 2015

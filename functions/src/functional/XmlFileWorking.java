@@ -312,7 +312,7 @@ public class XmlFileWorking implements DataSaveLoad {
         holidays = xmlSaveLoad.loadHoliday(XML_HOLIDAY_PATCH_RU);
         countries = xmlSaveLoad.loadCountry(XML_COUNTRY_PATCH_RU);
         traditions = xmlSaveLoad.loadTradition(XML_TRADITION_PATCH_RU);
-        UserData.users = loadUsers(XML_USERS);
+        //UserData.users = loadUsers(XML_USERS);
     }
 
     @Override
