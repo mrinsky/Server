@@ -87,7 +87,7 @@ public class PrintHandler {
                     break;
                 case 2:
                     if (validate) {
-                        ChangeHandler.holidayChanger(UserData.currentUser.isAdmin());
+                        ChangeHandler.holidayChanger();
                         break;
                     }
                 case 3:
@@ -128,7 +128,7 @@ public class PrintHandler {
                 case 2:
                     if (UserData.currentUser == null) throw new NumberFormatException();
                     else {
-                        ChangeHandler.countryChanger(UserData.currentUser.isAdmin());
+                        ChangeHandler.countryChanger();
                     }
                     break;
                 case 3:
