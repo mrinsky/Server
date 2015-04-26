@@ -10,7 +10,7 @@ import java.util.List;
 public class Add {
 
     // Проверка на уникальность объекта
-    private static boolean isUnique(Object value, List<?> list) {
+    public static boolean isUnique(Object value, List<?> list) {
         for (Object item : list) {
             if (value.toString().equals(item.toString())) {
                 return false;
