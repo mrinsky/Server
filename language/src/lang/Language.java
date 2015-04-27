@@ -168,4 +168,10 @@ public interface Language {
     public String getSEARCH_BY_DATE_INTERVAL();
     public String getCHOOSE_SEARCH_PARAM();
     public String getAND_LABEL();
+
+
+    public String getLOG_FILE_ERROR();
+    public String getSERVER_PORT_ERROR();
+    public String getTHREAD_ERROR();
 }
+
