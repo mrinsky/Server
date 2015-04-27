@@ -121,10 +121,14 @@ public class myServer implements Runnable {
                             } else if ("loadAllData".equals(input)){
                                 try {
                                     System.out.println("Дошло до LoadAll");
-
-                                    if (UserData.currentUser == null) xmlFileWorking.loadGuest(traditions, countries, holidays);
-                                    else xmlFileWorking.loadUser(traditions,countries,holidays);
-
+                                    xmlFileWorking.loadUser(traditions,countries,holidays);
+                                } catch (SAXException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else if ("loadGuest".equals(input)) {
+                                try {
+                                    xmlFileWorking.loadGuest(traditions, countries, holidays);
                                 } catch (SAXException e) {
                                     e.printStackTrace();
                                 }
