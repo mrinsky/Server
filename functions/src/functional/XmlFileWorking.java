@@ -16,10 +16,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /*
 Created by Михаил on 09.03.2015.
@@ -546,6 +543,23 @@ public class XmlFileWorking implements DataSaveLoad {
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("searchRequest").getAttributeValue("request");
+
+    }
+
+    public String sendDateToServer_dateSearch(Date request) throws IOException { //пользователь делает xml для отправки на сервер
+        Element root = new Element("searchByDate");
+        Document doc = new Document(root);
+        Element traditionElement = new Element("searchDate");
+        traditionElement.setAttribute("date", Holiday.dateFormat.format(request));
+        root.addContent(traditionElement);
+        XMLOutputter outputter = new XMLOutputter();
+        return outputter.outputString(doc);
+    }
+
+    public String getDateFromClient_dateSearch(String direct) throws JDOMException, IOException, ParseException {
+        Document document = builder.build(direct);
+        Element root = document.getRootElement();
+        return root.getChild("searchDate").getAttributeValue("date");
 
     }
 

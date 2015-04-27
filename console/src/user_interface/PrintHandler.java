@@ -202,17 +202,17 @@ public class PrintHandler {
         if (UserData.currentUser != null && !UserData.currentUser.isAdmin()){
             if (!UserData.currentUser.getHolidayList().isEmpty()){
                 ArrayList<Tradition> traditions = new ArrayList<Tradition>();
-                for (int i = UserData.traditionCount; i < Resources.traditions.size(); i++){
+                for (int i = 0; i < Resources.traditions.size(); i++){
                     traditions.add(Resources.traditions.get(i));
                 }
                 UserData.currentUser.setTraditionList(traditions);
                 LinkedList<Country> countries = new LinkedList<Country>();
-                for (int i = UserData.countryCount; i < Resources.countries.size(); i++){
+                for (int i = 0; i < Resources.countries.size(); i++){
                     countries.add(Resources.countries.get(i));
                 }
                 UserData.currentUser.setCountryList(countries);
                 LinkedList<Holiday> holidays = new LinkedList<Holiday>();
-                for (int i = UserData.holidayCount; i < Resources.holidays.size(); i++){
+                for (int i = 0; i < Resources.holidays.size(); i++){
                     holidays.add(Resources.holidays.get(i));
                 }
                 UserData.currentUser.setHolidayList(holidays);

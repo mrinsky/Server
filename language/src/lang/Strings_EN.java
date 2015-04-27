@@ -100,7 +100,6 @@ public class Strings_EN implements Language {
     private final String SEARCH_BY_DATE_INTERVAL = "by date interval";
     private final String CHOOSE_SEARCH_PARAM = "Choose search params";
     private final String AND_LABEL = "And";
-    private final String REGISTRATION_LABEL = "Registration";
 
     public String getALL_EVENT() {
         return ALL_EVENT;
@@ -508,10 +507,6 @@ public class Strings_EN implements Language {
     }
     public String getAND_LABEL(){
         return AND_LABEL;
-    }
-
-    public String getREGISTRATION_LABEL() {
-        return REGISTRATION_LABEL;
     }
 
 }
