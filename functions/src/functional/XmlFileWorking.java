@@ -39,9 +39,8 @@ public class XmlFileWorking implements DataSaveLoad {
     }
 
     public void loadUser(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws JDOMException, SAXException, ParseException, IOException {
-        System.out.println("load");
 
-        System.out.println("loadData" + UserData.currentUser.getLogin() + "пусто");
+
         for (Tradition item : loadTradition(ROOT + UserData.currentUser.getLogin() + TRADITION_FILE)) {
 
             traditions.add(item);
@@ -56,9 +55,7 @@ public class XmlFileWorking implements DataSaveLoad {
     }
 
     public void loadGuest(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws JDOMException, SAXException, ParseException, IOException {
-        System.out.println("load");
-        System.out.println("loadGuestData");
-        for (Tradition item : loadTradition(XML_TRADITION_PATCH_RU)) {
+       for (Tradition item : loadTradition(XML_TRADITION_PATCH_RU)) {
 
             traditions.add(item);
         }
@@ -320,7 +317,7 @@ public class XmlFileWorking implements DataSaveLoad {
         saveUsers(UserData.users, XML_USERS);
     }
 
-    public boolean validationXSD(String directXML, String directXSD) throws IOException {
+    public boolean validationXSD(String directXML, String directXSD) throws IOException { //валидация хмл
         try {
 
 
@@ -336,7 +333,7 @@ public class XmlFileWorking implements DataSaveLoad {
     }
 
 
-    public String xmlToString(String direct) {
+    public String xmlToString(String direct) { //преобразуем хмл в стринг
         String s = "";
         File file = new File(direct);
 
@@ -357,16 +354,16 @@ public class XmlFileWorking implements DataSaveLoad {
 
 
             } catch (FileNotFoundException e) {
-                System.out.println("Файл не найден");
+                System.out.println("File not found");
             }
         } catch (IOException e) {
-
+            System.out.println("xml to string error.");
         }
 
         return s;
     }
 
-    public void stringToXML(String direct, String inputMessage) {
+    public void stringToXML(String direct, String inputMessage) { //преобразуем стринг в хмл файл
         PrintWriter printWriter;
         File file = new File(direct);
         try {
@@ -376,12 +373,12 @@ public class XmlFileWorking implements DataSaveLoad {
             printWriter.print(inputMessage);
             printWriter.close();
         } catch (IOException e) {
-            System.out.println("StringToXml ошибка");
+            System.out.println("StringToXml Error");
         }
 
     }
 
-    public String sendHolidaysToServer_ADD(Holiday holiday) throws IOException {
+    public String sendHolidaysToServer_ADD(Holiday holiday) throws IOException { //отправка на сервер праздника
         Element root = new Element("addHoliday");
         Document doc = new Document(root);
         Element holidayElement = new Element("holiday");
@@ -408,7 +405,7 @@ public class XmlFileWorking implements DataSaveLoad {
 
     }
 
-    public Holiday getHolidayFromClient_ADD(String direct) throws IOException, JDOMException, ParseException, SAXException {
+    public Holiday getHolidayFromClient_ADD(String direct) throws IOException, JDOMException, ParseException, SAXException { //получение праздника от клиента
 
         Document document = builder.build(direct);
         Element root = document.getRootElement();
@@ -425,7 +422,7 @@ public class XmlFileWorking implements DataSaveLoad {
         return holiday;
     }
 
-    public String sendCountryToServer_ADD(Country country) throws IOException {
+    public String sendCountryToServer_ADD(Country country) throws IOException {//отправка страны на сервер
         Element root = new Element("addCountry");
         Document doc = new Document(root);
         Element countryElement = new Element("country");
@@ -440,7 +437,7 @@ public class XmlFileWorking implements DataSaveLoad {
 
     }
 
-    public Country getCountryFromClient_ADD(String direct) throws IOException, JDOMException {
+    public Country getCountryFromClient_ADD(String direct) throws IOException, JDOMException {//расшифровка добавление
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         List countryElem = root.getChildren();
@@ -453,7 +450,7 @@ public class XmlFileWorking implements DataSaveLoad {
         return country;
     }
 
-    public String sendTraditionToServer_ADD(Tradition tradition) throws IOException { //пользователь делает xml для отправки на сервер
+    public String sendTraditionToServer_ADD(Tradition tradition) throws IOException { //Запрос на добавление
         Element root = new Element("addTradition");
         Document doc = new Document(root);
         Element traditionElement = new Element("tradition");
@@ -529,7 +526,7 @@ public class XmlFileWorking implements DataSaveLoad {
     } //получаем традицию и кидаем в метод добавления
 
 
-    public String sendRequestToServer_Search(String request) throws IOException { //пользователь делает xml для отправки на сервер
+    public String sendRequestToServer_Search(String request) throws IOException { //запрос на поиск
         Element root = new Element("search");
         Document doc = new Document(root);
         Element traditionElement = new Element("searchRequest");
@@ -539,14 +536,14 @@ public class XmlFileWorking implements DataSaveLoad {
         return outputter.outputString(doc);
     }
 
-    public String getRequestFromClient_Search(String direct) throws JDOMException, IOException, ParseException {
+    public String getRequestFromClient_Search(String direct) throws JDOMException, IOException, ParseException { //расшифровка  на обычный поиск
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("searchRequest").getAttributeValue("request");
 
     }
 
-    public String sendDateToServer_dateSearch(Date request) throws IOException { //пользователь делает xml для отправки на сервер
+    public String sendDateToServer_dateSearch(Date request) throws IOException { //поиск по дате
         Element root = new Element("searchByDate");
         Document doc = new Document(root);
         Element traditionElement = new Element("searchDate");
@@ -556,14 +553,14 @@ public class XmlFileWorking implements DataSaveLoad {
         return outputter.outputString(doc);
     }
 
-    public String getDateFromClient_dateSearch(String direct) throws JDOMException, IOException, ParseException {
+    public String getDateFromClient_dateSearch(String direct) throws JDOMException, IOException, ParseException { //поиск по дате
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("searchDate").getAttributeValue("date");
 
     }
 
-    public String sendRequestToServer_regularSearch(String request) throws IOException { //пользователь делает xml для отправки на сервер
+    public String sendRequestToServer_regularSearch(String request) throws IOException { //запрос на  поиск по регулярному выражению
         Element root = new Element("regularSearch");
         Document doc = new Document(root);
         Element traditionElement = new Element("regularSearchRequest");
@@ -573,14 +570,14 @@ public class XmlFileWorking implements DataSaveLoad {
         return outputter.outputString(doc);
     }
 
-    public String getRequestFromClient_regularSearch(String direct) throws JDOMException, IOException, ParseException {
+    public String getRequestFromClient_regularSearch(String direct) throws JDOMException, IOException, ParseException {//расшифровка на  поиск по регулярному выражению
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("regularSearchRequest").getAttributeValue("request");
 
     }
 
-    public String sendRequestToServer_maskSearch(String name, String country, String description) throws IOException {
+    public String sendRequestToServer_maskSearch(String name, String country, String description) throws IOException { //запрос на посиск по маске
         Element root = new Element("maskSearch");
         Document doc = new Document(root);
         Element traditionElement = new Element("maskSearchRequest");
@@ -592,25 +589,25 @@ public class XmlFileWorking implements DataSaveLoad {
         return outputter.outputString(doc);
     }
 
-    public String getRequestFromClient_maskSearchHolidayName(String direct) throws JDOMException, IOException, ParseException {
+    public String getRequestFromClient_maskSearchHolidayName(String direct) throws JDOMException, IOException, ParseException { //запрос на поиск по маске - имя праздника
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("maskSearchRequest").getAttributeValue("holidayName");
     }
 
-    public String getRequestFromClient_maskSearchCountryName(String direct) throws JDOMException, IOException, ParseException {
+    public String getRequestFromClient_maskSearchCountryName(String direct) throws JDOMException, IOException, ParseException { //запрос на поиск по маске - имя страны
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("maskSearchRequest").getAttributeValue("countryName");
     }
 
-    public String getRequestFromClient_maskSearchDescriptionName(String direct) throws JDOMException, IOException, ParseException {
+    public String getRequestFromClient_maskSearchDescriptionName(String direct) throws JDOMException, IOException, ParseException { //запрос на поиск по маске -  описание
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("maskSearchRequest").getAttributeValue("description");
     }
 
-    public String sendIdToServer_Remove(int id) throws IOException { //пользователь делает xml для отправки на сервер
+    public String sendIdToServer_Remove(int id) throws IOException { //Отправка ид для удаления
         Element root = new Element("remove");
         Document doc = new Document(root);
         Element traditionElement = new Element("traditionId");
@@ -620,14 +617,14 @@ public class XmlFileWorking implements DataSaveLoad {
         return outputter.outputString(doc);
     }
 
-    public String getIdFromClient_Remove(String direct) throws JDOMException, IOException, ParseException {
+    public String getIdFromClient_Remove(String direct) throws JDOMException, IOException, ParseException { //получение ид для удаления
         Document document = builder.build(direct);
         Element root = document.getRootElement();
         return root.getChild("traditionId").getAttributeValue("id");
 
     }
 
-    public String sendDataRegToServer_Registration(String login, String pass1, String pass2) throws IOException { //пользователь делает xml для отправки на сервер
+    public String sendDataRegToServer_Registration(String login, String pass1, String pass2) throws IOException { //Запрос регистрации  на сервер
         Element root = new Element("registration");
         Document doc = new Document(root);
         Element traditionElement = new Element("dataReg");
@@ -639,8 +636,8 @@ public class XmlFileWorking implements DataSaveLoad {
         return outputter.outputString(doc);
     }
 
-    public String sendDataLogInToServer_LogIn(String login, String pass1) throws IOException { //пользователь делает xml для отправки на сервер
-        Element root = new Element("logIn");
+    public String sendDataLogInToServer_LogIn(String login, String pass1) throws IOException { //отправка логина и пароля на сервер
+            Element root = new Element("logIn");
         Document doc = new Document(root);
         Element traditionElement = new Element("dataLogIn");
         traditionElement.setAttribute("login", login);
