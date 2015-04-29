@@ -32,6 +32,9 @@ public class XmlFileWorking implements DataSaveLoad {
     private final String TEMP_XML = "/resources/temp/temp.xml";
     private SAXBuilder builder = new SAXBuilder();
 
+
+    // Огромный километровый класс. Придумайте, как разбить на несколько классов, переиспользовать код и избавиться от кучи констант.
+    // Потом посмотрю детально реализацию
     public void saveUser(ArrayList<Tradition> traditions, List<Holiday> holidays, List<Country> countries) throws IOException {
         this.saveTradition(traditions, ROOT + UserData.currentUser.getLogin() + TRADITION_FILE);
         this.saveHolidays(holidays, ROOT + UserData.currentUser.getLogin() + HOLIDAY_FILE);
