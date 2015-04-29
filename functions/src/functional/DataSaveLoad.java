@@ -17,6 +17,10 @@ import java.util.List;
 */
 
 public interface DataSaveLoad {
+    
+    // Хранение констант в интерфейсах считается плохим тоном
+    // нужно сделать классы констант
+    // интерфейс должен описывать в первую очередь поведение!
     public final static String XML_TRADITION_DEFAULT_RU = "resources/xml/default_save/traditionSave.xml";
     public final static String XML_HOLIDAY_DEFAULT_RU = "resources/xml/default_save/holidaySave.xml";
     public final static String XML_COUNTRY_DEFAULT_RU = "resources/xml/default_save/countrySave.xml";
@@ -36,9 +40,18 @@ public interface DataSaveLoad {
     public final static String HOLIDAY_XSD = "resources/XSD_Schems/HolidayXSD.xsd";
     public final static String COUNTRY_XSD = "resources/XSD_Schems/CountryXSD.xsd";
     public final static String USERS_XSD = "resources/XSD_Schems/UsersXSD.xsd";
+    
+    // А этого тут вообще даже близко быть не должно
     DataSaveLoad xmlSaveLoad = new XmlFileWorking();
 //    DataSaveLoad serSaveLoad = new SerFileWorking();
 
+// как только исчезнет передача списков в параметры, вы сможете убрать кучу ненужных методов
+// тут по идее должны остаться только методы load(), save(), loadAll(), saveAll()
+// и никакой конкретизации того, что именно загружается или сохраняется.
+// пример: мы можем требовать от транспортного средства, чтобы оно могло летать, т.е. реализовывать интерфейс Flying,
+// но при этом не вникать в подробности того, как именно оно летает
+// в идеале у вас должно быть два интерфейса: Loadable и Saveable
+// подумайте, где еще вы упустили возможность создать интерфейсы и нагородили кучу ненужного повторяющегося кода
 
     public void saveTradition(ArrayList<Tradition> traditions, String direct) throws IOException;
 
