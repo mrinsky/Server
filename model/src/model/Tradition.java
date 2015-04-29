@@ -7,6 +7,7 @@ public class Tradition implements Serializable {
     private Country country;
     private String description;
 
+    // несколько конструкторов - паттерн Builder (как и в Holiday)
     public Tradition(Holiday holiday, Country country) {
         this.holiday = holiday;
         this.country = country;
@@ -20,7 +21,7 @@ public class Tradition implements Serializable {
     }
 
     public Tradition() {
-
+        // нет значений по умолчанию
     }
 
     public void setHoliday(Holiday holiday) {
