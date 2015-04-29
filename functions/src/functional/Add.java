@@ -9,9 +9,16 @@ import java.util.List;
 
 public class Add {
 
+    // зачем вам эта глобальная переменная? Метода isUnique не хватает? надо уйти от такого подхода
     public static boolean uniqueFlag = true;
     // Проверка на уникальность объекта
+    
+    // если у вас будет отдельный класс Календарь, то передавать список не нужно будет
+    // если в списке много объектов, то текущая реализация будет тормозить. Сильно. А то и упадет с OutOfMemory.
     public static boolean isUnique(Object value, List<?> list) {
+        // работает с произвольным объектом? серьезно? :)
+        // не у любого объекта to String вернет адекватный результат
+        // а обращение к списку будет примерно такое: HolidayCalendar.getTraditions();
         for (Object item : list) {
             if (value.toString().equals(item.toString())) {
                 return false;
@@ -21,6 +28,7 @@ public class Add {
     }
 
     //region Добавление страны
+    // Аналогично предыдущему методу не передавать список. Больше нигде это писать не буду, сделайте для всех случаев
     public static List<Country> addCountry(String name, List<Country> list) {
         Country country = new Country(name);
         if (isUnique(country, list)) {
