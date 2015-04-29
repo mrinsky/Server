@@ -12,6 +12,7 @@ public class RSA {
     private BigInteger modulus;
 
     public void init(int N) {
+        // по именам переменных N, p, q, phi совершенно непонятно, что они делают и для чего.
         BigInteger p = BigInteger.probablePrime(N/2, random);
         BigInteger q = BigInteger.probablePrime(N/2, random);
         BigInteger phi = (p.subtract(one)).multiply(q.subtract(one));
