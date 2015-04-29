@@ -9,7 +9,8 @@ public class Country implements Serializable {
         this.name = name;}
 
     public Country() {
-
+        // то есть если вызвался пустой конструктор, то название будет неизбежно null? 
+        // Надо хотя бы пустой строкой инициализировать
     }
 
     @Override
