@@ -9,12 +9,16 @@ public class Holiday implements Serializable {
     private Date startDate;
     private Date endDate;
     private HolidayType type;
+    // а почему поле общедоступно? да и не место ему в классе с праздниками. Создайте какой-нибудь DateHandler и вынесите туда
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
 
+// Если все эти конструкторы действительно нужны, то надо загнать всё это добро в паттерн Builder (см. википедию, второй вариант реализации)
     public Holiday (String name) {
         this.name = name;
         this.startDate = new Date();
         this.endDate = null;
+        // присваивать null очень опасно. Будут падать неконтролируемые NPE или же вам придется тащить кучу проверок на null
+        // если endDate не задан, то можно по умолчанию сделать совпадающим с startDate
         this.type = HolidayType.OTHER;
     }
 
@@ -22,6 +26,9 @@ public class Holiday implements Serializable {
         this.name = name;
         this.startDate = new Date();
         this.endDate = null;
+        // а зачем вам обращение к элементу перечисления по номеру? 
+        // можно и именем обойтись. А если кто-то изменит порядок следования элементов, будет очень плохо. 
+        // А главное - будет невероятно сложно понять, из-за чего всё упало
         this.type = HolidayType.values()[typeNum];
     }
 
@@ -40,7 +47,7 @@ public class Holiday implements Serializable {
     }
 
     public Holiday() {
-
+        // должны быть значения полей по умолчанию
     }
 
     public String getName() {
