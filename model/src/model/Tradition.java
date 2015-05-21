@@ -19,10 +19,6 @@ public class Tradition implements Serializable {
         this.description = description;
     }
 
-    public Tradition() {
-
-    }
-
     public void setHoliday(Holiday holiday) {
         this.holiday = holiday;
     }

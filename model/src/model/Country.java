@@ -2,15 +2,11 @@ package model;
 
 import java.io.Serializable;
 
-public class Country implements Serializable {
+public class Country implements Serializable, Comparable<Country> {
     private String name;
 
     public Country(String name) {
         this.name = name;}
-
-    public Country() {
-
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -35,5 +31,12 @@ public class Country implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(Country country) {
+        if (this.getName().charAt(0) > country.getName().charAt(0)) return 1;
+        else if (this.getName().charAt(0) < country.getName().charAt(0)) return -1;
+        return 0;
     }
 }

@@ -4,43 +4,40 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Holiday implements Serializable {
+public class Holiday implements Serializable, Comparable<Holiday> {
+
     private String name;
     private Date startDate;
     private Date endDate;
     private HolidayType type;
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
 
     public Holiday (String name) {
         this.name = name;
         this.startDate = new Date();
-        this.endDate = null;
+        this.endDate = this.startDate;
         this.type = HolidayType.OTHER;
     }
 
-    public Holiday(String name, int typeNum) {
+    public Holiday(String name, String type) {
         this.name = name;
         this.startDate = new Date();
-        this.endDate = null;
-        this.type = HolidayType.values()[typeNum];
+        this.endDate = this.startDate;
+        this.type = HolidayType.valueOf(type);
     }
 
-    public Holiday(String name, Date start, int typeNum) {
+    public Holiday(String name, Date start, String typeNum) {
         this.name = name;
         this.startDate = start;
         this.endDate = null;
-        this.type = HolidayType.values()[typeNum];
+        this.type = HolidayType.valueOf(typeNum);
     }
 
-    public Holiday(String name, Date start,  Date end, int typeNum) {
+    public Holiday(String name, Date start,  Date end, String typeNum) {
         this.name = name;
         this.startDate = start;
         this.endDate = end;
-        this.type = HolidayType.values()[typeNum];
-    }
-
-    public Holiday() {
-
+        this.type = HolidayType.valueOf(typeNum);
     }
 
     public String getName() {
@@ -49,7 +46,7 @@ public class Holiday implements Serializable {
 
     public String toString() {
         String s;
-        if (endDate == null) s = dateFormat.format(startDate);//(!startDate.equals(endDate)) s = startDate.toString();
+        if (endDate.equals(startDate)) s = dateFormat.format(startDate);
         else s = String.format("%s-%s",dateFormat.format(startDate),dateFormat.format(endDate));
 
         return String.format("%30s%15s%15s",name,s,type);
@@ -100,5 +97,12 @@ public class Holiday implements Serializable {
         result = 31 * result + endDate.hashCode();
         result = 31 * result + type.hashCode();
         return result;
+    }
+
+    @Override
+    public int compareTo(Holiday holiday) {
+        if (holiday.getName().charAt(0) > this.getName().charAt(0)) return -1;
+        else if (holiday.getName().charAt(0) < this.getName().charAt(0)) return 1;
+        return 0;
     }
 }
