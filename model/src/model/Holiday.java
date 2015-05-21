@@ -1,5 +1,7 @@
 package model;
 
+import functional.DateLabelFormatter;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +12,6 @@ public class Holiday implements Serializable, Comparable<Holiday> {
     private Date startDate;
     private Date endDate;
     private HolidayType type;
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
 
     public Holiday (String name) {
         this.name = name;
@@ -45,15 +46,17 @@ public class Holiday implements Serializable, Comparable<Holiday> {
     }
 
     public String toString() {
+        DateLabelFormatter formatter = new DateLabelFormatter();
         String s;
-        if (endDate.equals(startDate)) s = dateFormat.format(startDate);
-        else s = String.format("%s-%s",dateFormat.format(startDate),dateFormat.format(endDate));
+        if (endDate.equals(startDate)) s = formatter.dateFormat(startDate);
+        else s = String.format("%s-%s", formatter.dateFormat(startDate), formatter.dateFormat(endDate));
 
         return String.format("%30s%15s%15s",name,s,type);
     }
 
     public String getStartDate() {
-        return dateFormat.format(this.startDate);
+        DateLabelFormatter formatter = new DateLabelFormatter();
+        return formatter.dateFormat(this.startDate);
     }
 
     public HolidayType getType() {
