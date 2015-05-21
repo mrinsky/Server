@@ -7,7 +7,6 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 import org.xml.sax.SAXException;
-import sun.security.util.Resources;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -24,46 +23,40 @@ Created by Михаил on 09.03.2015.
 
 public class XmlFileWorking implements DataSaveLoad {
 
-
-    public final String ROOT = "resources/users/";
-    public final String TRADITION_FILE = "/traditionSave.xml";
-    public final String HOLIDAY_FILE = "/holidaySave.xml";
-    public final String COUNTRY_FILE = "/countrySave.xml";
-    private final String TEMP_XML = "/resources/temp/temp.xml";
     private SAXBuilder builder = new SAXBuilder();
 
     public void saveUser(ArrayList<Tradition> traditions, List<Holiday> holidays, List<Country> countries) throws IOException {
-        this.saveTradition(traditions, ROOT + UserData.currentUser.getLogin() + TRADITION_FILE);
-        this.saveHolidays(holidays, ROOT + UserData.currentUser.getLogin() + HOLIDAY_FILE);
-        this.saveCountry(countries, ROOT + UserData.currentUser.getLogin() + COUNTRY_FILE);
+        this.saveTradition(traditions, Paths.ROOT + UserData.currentUser.getLogin() + Paths.TRADITION_FILE);
+        this.saveHolidays(holidays, Paths.ROOT + UserData.currentUser.getLogin() + Paths.HOLIDAY_FILE);
+        this.saveCountry(countries, Paths.ROOT + UserData.currentUser.getLogin() + Paths.COUNTRY_FILE);
     }
 
     public void loadUser(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws JDOMException, SAXException, ParseException, IOException {
 
 
-        for (Tradition item : loadTradition(ROOT + UserData.currentUser.getLogin() + TRADITION_FILE)) {
+        for (Tradition item : loadTradition(Paths.ROOT + UserData.currentUser.getLogin() + Paths.TRADITION_FILE)) {
 
             traditions.add(item);
         }
 
-        for (Country item : loadCountry(ROOT + UserData.currentUser.getLogin() + COUNTRY_FILE)) {
+        for (Country item : loadCountry(Paths.ROOT + UserData.currentUser.getLogin() + Paths.COUNTRY_FILE)) {
             countries.add(item);
         }
-        for (Holiday item : loadHoliday(ROOT + UserData.currentUser.getLogin() + HOLIDAY_FILE)) {
+        for (Holiday item : loadHoliday(Paths.ROOT + UserData.currentUser.getLogin() + Paths.HOLIDAY_FILE)) {
             holidays.add(item);
         }
     }
 
     public void loadGuest(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws JDOMException, SAXException, ParseException, IOException {
-       for (Tradition item : loadTradition(XML_TRADITION_PATCH_RU)) {
+       for (Tradition item : loadTradition(Paths.XML_TRADITION_PATCH_RU)) {
 
             traditions.add(item);
         }
 
-        for (Country item : loadCountry(XML_COUNTRY_PATCH_RU)) {
+        for (Country item : loadCountry(Paths.XML_COUNTRY_PATCH_RU)) {
             countries.add(item);
         }
-        for (Holiday item : loadHoliday(XML_HOLIDAY_PATCH_RU)) {
+        for (Holiday item : loadHoliday(Paths.XML_HOLIDAY_PATCH_RU)) {
             holidays.add(item);
         }
     }
@@ -189,7 +182,7 @@ public class XmlFileWorking implements DataSaveLoad {
 
         LinkedList<Holiday> holidays = new LinkedList<Holiday>();
         if (!((new File(direct)).exists())) {
-            direct = XML_HOLIDAY_DEFAULT_RU;
+            direct = Paths.XML_HOLIDAY_DEFAULT_RU;
         }
         //if (validationXSD(direct, HOLIDAY_XSD) == false) {
         //  throw new SAXException();
@@ -230,7 +223,7 @@ public class XmlFileWorking implements DataSaveLoad {
     public LinkedList<Country> loadCountry(String direct) throws IOException, JDOMException {
         LinkedList<Country> countries = new LinkedList<Country>();
         if (!((new File(direct)).exists())) {
-            direct = XML_COUNTRY_DEFAULT_RU;
+            direct = Paths.XML_COUNTRY_DEFAULT_RU;
         }
         //if (validationXSD(direct, COUNTRY_XSD) == false) {
         //    throw new SAXException();
@@ -273,7 +266,7 @@ public class XmlFileWorking implements DataSaveLoad {
 
         if (!((new File(direct)).exists())) {
         }
-        if (validationXSD(direct, USERS_XSD) == false) {
+        if (validationXSD(direct, Paths.USERS_XSD) == false) {
             throw new SAXException();
         }
         Document document = builder.build(direct);
@@ -303,18 +296,18 @@ public class XmlFileWorking implements DataSaveLoad {
 
     @Override
     public void loadAll(ArrayList<Tradition> traditions, LinkedList<Country> countries, LinkedList<Holiday> holidays) throws ClassNotFoundException, IOException, JDOMException, ParseException, SAXException {
-        holidays = xmlSaveLoad.loadHoliday(XML_HOLIDAY_PATCH_RU);
-        countries = xmlSaveLoad.loadCountry(XML_COUNTRY_PATCH_RU);
-        traditions = xmlSaveLoad.loadTradition(XML_TRADITION_PATCH_RU);
+        holidays = this.loadHoliday(Paths.XML_HOLIDAY_PATCH_RU);
+        countries = this.loadCountry(Paths.XML_COUNTRY_PATCH_RU);
+        traditions = this.loadTradition(Paths.XML_TRADITION_PATCH_RU);
         //UserData.users = loadUsers(XML_USERS);
     }
 
     @Override
     public void saveAll(ArrayList<Tradition> traditions, List<Country> countries, List<Holiday> holidays) throws IOException {
-        xmlSaveLoad.saveHolidays(holidays, XML_HOLIDAY_PATCH_RU);
-        xmlSaveLoad.saveCountry(countries, XML_COUNTRY_PATCH_RU);
-        xmlSaveLoad.saveTradition(traditions, XML_TRADITION_PATCH_RU);
-        saveUsers(UserData.users, XML_USERS);
+        this.saveHolidays(holidays, Paths.XML_HOLIDAY_PATCH_RU);
+        this.saveCountry(countries, Paths.XML_COUNTRY_PATCH_RU);
+        this.saveTradition(traditions, Paths.XML_TRADITION_PATCH_RU);
+        saveUsers(UserData.users, Paths.XML_USERS);
     }
 
     public boolean validationXSD(String directXML, String directXSD) throws IOException { //валидация хмл
