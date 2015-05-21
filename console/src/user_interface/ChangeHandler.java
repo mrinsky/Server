@@ -41,7 +41,7 @@ public class ChangeHandler {
             PrintHandler.printArrayCountries(Resources.countries);
             // Выбор страны для изменения
             int choice = Integer.parseInt(MainMenu.reader.readLine());
-            if (choice < UserData.countryCount) {
+            if (choice >= 0 && choice < Resources.countries.size()) {
                 changeCountry(choice);
             } else {
                 throw new IndexOutOfBoundsException();
@@ -50,7 +50,7 @@ public class ChangeHandler {
         } catch (IOException e) {
             MainMenu.out.println(Resources.language.getIO_ERROR());
         } catch (IndexOutOfBoundsException e) {
-            Resources.language.getWRONG_CHOICE();
+            MainMenu.out.println(Resources.language.getWRONG_CHOICE());
         }
     }
 

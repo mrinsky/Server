@@ -99,6 +99,10 @@ public class Strings_RU implements Language {
     private final String SHOW_OR_EDIT = "Показать / Изменить описание";
     private final String NOT_FOUND_DESCRIPTION = "Описание отсутствует";
 
+    private final String LOG_FILE_ERROR = "Ошибка в Log файле!";
+    private final String SERVER_PORT_ERROR = "Порт занят!";
+    private final String THREAD_ERROR = "Невозможно создать поток!";
+
     public String getNOT_FOUND_DESCRIPTION() {
         return NOT_FOUND_DESCRIPTION;
     }
@@ -121,6 +125,21 @@ public class Strings_RU implements Language {
     @Override
     public String getAND_LABEL() {
         return null;
+    }
+
+    @Override
+    public String getLOG_FILE_ERROR() {
+        return LOG_FILE_ERROR;
+    }
+
+    @Override
+    public String getSERVER_PORT_ERROR() {
+        return SERVER_PORT_ERROR;
+    }
+
+    @Override
+    public String getTHREAD_ERROR() {
+        return THREAD_ERROR;
     }
 
     public String getSHOW() {
@@ -526,4 +545,5 @@ public class Strings_RU implements Language {
     public String getGUEST_MAIN_MENU(){
         return GUEST_MAIN_MENU;
     }
+
 }

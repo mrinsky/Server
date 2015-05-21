@@ -101,6 +101,9 @@ public class Strings_EN implements Language {
     private final String CHOOSE_SEARCH_PARAM = "Choose search params";
     private final String AND_LABEL = "And";
 
+    private final String LOG_FILE_ERROR = "Log file error!";
+    private final String SERVER_PORT_ERROR = "Port unreachable!";
+    private final String THREAD_ERROR = "Unable to create thread!";
 
     public String getALL_EVENT() {
         return ALL_EVENT;
@@ -510,6 +513,19 @@ public class Strings_EN implements Language {
         return AND_LABEL;
     }
 
+    @Override
+    public String getLOG_FILE_ERROR() {
+        return LOG_FILE_ERROR;
+    }
 
+    @Override
+    public String getSERVER_PORT_ERROR() {
+        return SERVER_PORT_ERROR;
+    }
+
+    @Override
+    public String getTHREAD_ERROR() {
+        return THREAD_ERROR;
+    }
 
 }

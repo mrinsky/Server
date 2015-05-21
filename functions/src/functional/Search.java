@@ -2,6 +2,8 @@ package functional;
 
 import model.*;
 
+import javax.swing.*;
+import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +39,62 @@ public class Search {
         return searchResult;
     }
 
+    public static ArrayList<Tradition> searchDate(String dateValue, LinkedList<Holiday> holidayList, ArrayList<Tradition> traditionList) {
+        try {
+            LinkedList<Holiday> traditionHolidays = new LinkedList<Holiday>();
+            for (Tradition item : traditionList) {
+                traditionHolidays.add(item.getHoliday());
+            }
+            Date date = Holiday.dateFormat.parse(dateValue);
+            if (Search.getDateHolidays(date, traditionHolidays).size() != 0) {
+                LinkedList<Holiday> holidays = Search.getDateHolidays(date, traditionHolidays);
+
+                ArrayList<Tradition> traditions = new ArrayList<Tradition>();//Search.getTraditions(holidays.get(0), traditionList);
+                for (Holiday item : holidays) {
+                    for (Tradition tradition : Search.getTraditions(item, traditionList)) {
+                        traditions.add(tradition);
+                    }
+                }
+                traditionList = traditions;
+            }
+        } catch (IndexOutOfBoundsException exc) {
+            JOptionPane.showMessageDialog(null, "IndexOutOfBoundsException");
+        }
+        catch (ParseException exc) {
+            JOptionPane.showMessageDialog(null, "ParseException");
+        }
+        return traditionList;
+    }
+
+    public static ArrayList<Tradition> searchDate(ArrayList<String> dateValue, LinkedList<Holiday> holidayList, ArrayList<Tradition> traditionList) {
+        try {
+            LinkedList<Holiday> traditionHolidays = new LinkedList<Holiday>();
+            for (Tradition item : traditionList) {
+                traditionHolidays.add(item.getHoliday());
+            }
+            //ArrayList<Date> dates = new ArrayList<Date>();
+            ArrayList<Tradition> traditions = new ArrayList<Tradition>();
+            for (String item : dateValue) {
+                Date date = Holiday.dateFormat.parse(item);
+                if (Search.getDateHolidays(date, traditionHolidays).size() != 0) {
+                    LinkedList<Holiday> holidays = Search.getDateHolidays(date, traditionHolidays);
+
+                    for (Holiday holiday : holidays) {
+                        for (Tradition tradition : Search.getTraditions(holiday, traditionList)) {
+                            traditions.add(tradition);
+                        }
+                    }
+                }
+            }
+            traditionList = traditions;
+        } catch (IndexOutOfBoundsException exc) {
+            JOptionPane.showMessageDialog(null, "IndexOutOfBoundsException");
+        }
+        catch (ParseException exc) {
+            JOptionPane.showMessageDialog(null, "ParseException");
+        }
+        return traditionList;
+    }
 
     public static ArrayList<Tradition> maskSearch(String holidayName, String countryName, String description, ArrayList<Tradition> traditions) { // Введите название -> Enter Введите страну -> Enter итд Если перенесем на форму будет удобнее
         ArrayList<Tradition> searchResult = new ArrayList<Tradition>();

@@ -39,7 +39,7 @@ public class SearchHandler {
         }
     }
 
-    private static void searchVoid() {
+    private static void searchVoid() { //вызов обычного поиски
         try {
             MainMenu.out.println(Resources.language.getSEARCH_REQUEST());
             String request = MainMenu.reader.readLine();
@@ -53,7 +53,7 @@ public class SearchHandler {
         searchMenu();
     }
 
-    private static void maskSearchVoid() {
+    private static void maskSearchVoid() { //вызов поиска по маске
         try {
             String country, holiday, description = "";
             MainMenu.out.println(Resources.language.getCOUNTRY_REQUEST());
@@ -70,7 +70,7 @@ public class SearchHandler {
         searchMenu();
     }
 
-    private static void regularSearchVoid() {
+    private static void regularSearchVoid() { //вызов поиска по регулярным выражениям
         try {
             MainMenu.out.println(Resources.language.getSEARCH_REQUEST());
             String request = MainMenu.reader.readLine();

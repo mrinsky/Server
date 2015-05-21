@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class TraditionHandler {
 
-    public static void traditionMenu() {
+    public static void traditionMenu() { //меню работы с традициями
         if (UserData.currentUser != null) {
             MainMenu.out.println(Resources.language.getTRADITION_MENU());
         }
@@ -46,7 +46,7 @@ public class TraditionHandler {
         }
     }
 
-    private static void printDescription() {
+    private static void printDescription() { //вывод описания традиции
         MainMenu.out.println(Resources.language.getID_REQUEST());
         try {
             int id = Integer.parseInt(MainMenu.reader.readLine());

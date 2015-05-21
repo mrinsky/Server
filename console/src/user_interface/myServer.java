@@ -3,6 +3,7 @@ package user_interface;
 //import functional.XmlFileWorking;
 
 import functional.*;
+import lang.Language;
 import model.*;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -36,18 +37,19 @@ public class myServer implements Runnable {
 
 
 
+
     public myServer(Socket socket) {
         this.connection = socket;
         clientCount++;
     }
 
-    public static void serverInit() throws IOException {
+    public static void serverInit() throws IOException {//Запись в лог файл начало сессии
         try {
             Resources.sw = new FileWriter(Resources.serverLogDirect, true);
             Resources.sw.write("\n" + "Session started: " + new java.util.Date().toString() + "\n");
             Resources.sw.close();
         } catch (IOException e) {
-            System.out.println("Ошибка в создании при работе с Log файлом!");
+            System.out.println(Resources.language.getLOG_FILE_ERROR());
         }
 
         ServerSocket servers = null;
@@ -55,7 +57,7 @@ public class myServer implements Runnable {
         try {
             servers = new ServerSocket(4444);
         } catch (IOException e) {
-            System.out.println("Невозможно запустить сервер, порт занят!");
+            System.out.println(Resources.language.getSERVER_PORT_ERROR());
             System.exit(-1);
         }
         //Ждем подключения клиента, запускаем поток на каждое подключение
@@ -66,7 +68,7 @@ public class myServer implements Runnable {
                 Thread thread = new Thread(runnable);
                 thread.start();
             } catch (IOException e) {
-                System.out.println("Ошибка при создании потока!");
+                System.out.println(Resources.language.getTHREAD_ERROR());
                 System.exit(-1);
             }
         }
@@ -89,14 +91,14 @@ public class myServer implements Runnable {
                     try {
                         Resources.sw = new FileWriter(Resources.serverLogDirect, true);
 
-                        Resources.sw.write(("\n Client " + name + " connected        " + new Date()));
+                        Resources.sw.write(("\n Client " + name + " connected        " + new Date())); // клиент подключился, записываем в лог файл
                         System.out.println("Client " + name + "  connected        " + new Date());
                         Resources.sw.close();
                         clientCount++;
                     }
 
                 catch(IOException e){
-                    System.out.println("Ошибка в создании при работе с Log файлом!");
+                    System.out.println(Resources.language.getLOG_FILE_ERROR());
                 }
                 }
             }
@@ -104,7 +106,6 @@ public class myServer implements Runnable {
                 //чистаем сообщения клиента
                 while (true) {
                     if ((input = inServer.readLine()) != null) {
-                        System.out.println(input);
                         try {
                             if ("getCountry".equals(input)) {
                                 xmlFileWorking.saveCountry(countries, TEMP_FOLDER + name + TEMP_XML);
@@ -120,17 +121,11 @@ public class myServer implements Runnable {
                                 input = null;
                             } else if ("loadAllData".equals(input)){
                                 try {
-                                    System.out.println("Дошло до LoadAll");
-                                    xmlFileWorking.loadUser(traditions,countries,holidays);
+                                    if (UserData.currentUser == null) xmlFileWorking.loadGuest(traditions, countries, holidays);
+                                    else xmlFileWorking.loadUser(traditions,countries,holidays);
+
                                 } catch (SAXException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            else if ("loadGuest".equals(input)) {
-                                try {
-                                    xmlFileWorking.loadGuest(traditions, countries, holidays);
-                                } catch (SAXException e) {
-                                    e.printStackTrace();
+                                    System.out.println(Resources.language.getXML_ERROR());
                                 }
                             }
                             else if ("logOut".equals(input)){
@@ -141,30 +136,32 @@ public class myServer implements Runnable {
                                 Thread.currentThread().stop();}
                             else{
 
-                                temp = getMethodFromClient(input);
+                                temp = getMethodFromClient(input); //расшифровывам и результат отправляем обратно
                                 outServer.println(temp);
                                 input = null;
                                 temp = null;
                             }
 
                         } catch (JDOMException e) {
+                            System.out.println(Resources.language.getXML_ERROR());
                             //ошибки в хмле
                         } catch (ParseException e) {
+                            System.out.println(Resources.language.getPARSE_ERROR());
 
                         }
 
-                        //Здесь расшифровываем сообщения и вызываем нужные методы
-                        //после чего отправляем результат обратно
+
 
                     }
                 }
             }catch(IOException e){
+            System.out.println(Resources.language.getIO_ERROR());
 
             }
 
         }
 
-    public String getMethodFromClient(String inputMessage) throws IOException, JDOMException, ParseException {
+    public String getMethodFromClient(String inputMessage) throws IOException, JDOMException, ParseException { //Расшифровываем и вызываем нужные методы
         PrintWriter printWriter;
         File file = new File(TEMP_FOLDER + name + TEMP_XML);
         file.createNewFile();
@@ -189,7 +186,7 @@ public class myServer implements Runnable {
                 holidays.add(holiday);
                 xmlFileWorking.saveHolidays(holidays, (TEMP_FOLDER + name + TEMP_XML));
             } catch (SAXException e) {
-                e.printStackTrace();
+                System.out.println(Resources.language.getXML_ERROR());
             }
             return xmlFileWorking.xmlToString(TEMP_FOLDER + name + TEMP_XML);
         }
@@ -204,6 +201,11 @@ public class myServer implements Runnable {
                     traditions), TEMP_FOLDER + name + TEMP_XML);
             return xmlFileWorking.xmlToString(TEMP_FOLDER + name + TEMP_XML);
 
+        }
+        if ("searchByDate".equals(root.getName())) {
+            xmlFileWorking.saveTradition(Search.searchDate(xmlFileWorking.getDateFromClient_dateSearch(TEMP_FOLDER + name + TEMP_XML),
+                    holidays, traditions), TEMP_FOLDER + name + TEMP_XML);
+            return xmlFileWorking.xmlToString(TEMP_FOLDER + name + TEMP_XML);
         }
         if ("regularSearch".equals(root.getName())) {
             xmlFileWorking.saveTradition(Search.regularSearch(xmlFileWorking.getRequestFromClient_regularSearch(TEMP_FOLDER + name + TEMP_XML),
@@ -224,7 +226,6 @@ public class myServer implements Runnable {
         if ("change".equals(root.getName())) {
         }
         if ("registration".equals(root.getName())) {
-            System.out.println("Дошло до регистрации");
             if ((Registration.checkLogin(root.getChild("dataReg").getAttributeValue("login")) == true) &
                     (!(root.getChild("dataReg").getAttributeValue("pass1")
                             .equals(root.getChild("dataReg").getAttributeValue("pass2"))))) {
@@ -234,15 +235,14 @@ public class myServer implements Runnable {
                 Registration.registration(root.getChild("dataReg").getAttributeValue("login"),
                         root.getChild("dataReg").getAttributeValue("pass1"),
                         root.getChild("dataReg").getAttributeValue("pass2"));
-                System.out.println("Запара в load data ");
                 UserData.loadData(root.getChild("dataReg").getAttributeValue("login"),
                         root.getChild("dataReg").getAttributeValue("pass1"), traditions, countries, holidays);
-                System.out.println("регистрация прошла успешно");
+
 
                 // Resources.traditions, Resources.countries, Resources.holidays передаем пользователю
                 //Загужаем традиции
             } catch (SAXException e) {
-                e.printStackTrace();
+                System.out.println(Resources.language.getXML_ERROR());
             }
 
         }
@@ -271,7 +271,7 @@ public class myServer implements Runnable {
 
                 User.copyFile(f1, f2);
             } catch (SAXException e) {
-                e.printStackTrace();
+                System.out.println(Resources.language.getXML_ERROR());
             }
         }
         if ("traditionSave".equals(root.getName())) {
@@ -282,7 +282,7 @@ public class myServer implements Runnable {
 
                 User.copyFile(f1, f2);
             } catch (SAXException e) {
-                e.printStackTrace();
+                System.out.println(Resources.language.getXML_ERROR());
             }
 
 

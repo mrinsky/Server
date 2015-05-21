@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Add {
 
-    public static boolean uniqueFlag = true;
     // Проверка на уникальность объекта
     public static boolean isUnique(Object value, List<?> list) {
         for (Object item : list) {
@@ -26,7 +25,6 @@ public class Add {
         if (isUnique(country, list)) {
             list.add(country);
         }
-        else uniqueFlag = false;
         return list;
     }
 
@@ -44,7 +42,6 @@ public class Add {
         if (isUnique(holiday, list)) {
             list.add(holiday);
         }
-        else uniqueFlag = false;
         return list;
     }
 
@@ -53,7 +50,6 @@ public class Add {
         if (isUnique(holiday, list)) {
             list.add(holiday);
         }
-        else uniqueFlag = false;
         return list;
     }
 
@@ -62,7 +58,6 @@ public class Add {
         if (isUnique(holiday, list)) {
             list.add(holiday);
         }
-        else uniqueFlag = false;
         return list;
     }
 
@@ -72,7 +67,6 @@ public class Add {
         if (isUnique(holiday, list)) {
             list.add(holiday);
         }
-        else uniqueFlag = false;
         return list;
     }
     //endregion
@@ -83,7 +77,6 @@ public class Add {
         if (isUnique(tradition, list)) {
             list.add(tradition);
         }
-        else uniqueFlag = false;
         return list;
     }
 
@@ -92,7 +85,6 @@ public class Add {
         if (isUnique(tradition, list)) {
             list.add(tradition);
         }
-        else uniqueFlag = false;
         return list;
     }
     //endregion
